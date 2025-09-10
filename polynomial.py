@@ -128,7 +128,7 @@ class Div:
             if isinstance(self.p2, (Add,Sub,Mul)):
                 return "( " + left + " ) / ( " + right + " )"
             return "( " + left + " ) / " + right
-        if isinstance(self.p2, (Add,Sub,Mul)):
+        if isinstance(self.p2, (Add,Sub,Mul,Div)):
             return left + " / ( " + right + " )"
         return left + " / " + right
 
