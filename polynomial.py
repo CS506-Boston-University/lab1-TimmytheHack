@@ -53,7 +53,15 @@ class Add:
         # TODO (Optional Exercise): Implement simplification
         # Examples: X + 0 -> X, 0 + X -> X, 3 + 5 -> 8
         # Hint: Simplify operands first, then apply simplification rules
-        pass
+        a = self.p1.simplify()
+        b = self.p2.simplify()
+        if isinstance(a, Int) and isinstance(b, Int):
+            return Int(a.i + b.i)
+        if a == Int(0):
+            return b
+        if b == Int(0):
+            return a
+        return Add(a, b)
 
 
 class Mul:
@@ -81,7 +89,17 @@ class Mul:
         # TODO (Optional Exercise): Implement simplification
         # Examples: X * 0 -> 0, X * 1 -> X, 3 * 5 -> 15
         # Hint: Simplify operands first, then apply simplification rules
-        pass
+        a = self.p1.simplify()
+        b = self.p2.simplify()
+        if isinstance(a, Int) and isinstance(b, Int):
+            return Int(a.i * b.i)
+        if a == Int(0) or b == Int(0):
+            return Int(0)
+        if a == Int(1):
+            return b
+        if b == Int(1):
+            return a
+        return Mul(a, b)
 
 
 class Sub:
@@ -95,7 +113,7 @@ class Sub:
         # Hint: Look at how Mul class handles parentheses
         left = repr(self.p1)
         right = repr(self.p2)
-        if isinstance(self.p2, (Add,Sub)):
+        if isinstance(self.p2, (Add, Sub)):
             right = "( " + right + " )"
         return left + " - " + right
 
@@ -110,7 +128,13 @@ class Sub:
         # TODO (Optional Exercise): Implement simplification
         # Examples: X - 0 -> X, 5 - 3 -> 2
         # Hint: Simplify operands first, then apply simplification rules
-        pass
+        a = self.p1.simplify()
+        b = self.p2.simplify()
+        if isinstance(a, Int) and isinstance(b, Int):
+            return Int(a.i - b.i)
+        if b == Int(0):
+            return a
+        return Sub(a, b)
 
 
 class Div:
@@ -124,11 +148,11 @@ class Div:
         # Hint: Look at how Mul class handles parentheses
         left = repr(self.p1)
         right = repr(self.p2)
-        if isinstance(self.p1, (Add,Sub)):
-            if isinstance(self.p2, (Add,Sub,Mul)):
+        if isinstance(self.p1, (Add, Sub)):
+            if isinstance(self.p2, (Add, Sub, Mul)):
                 return "( " + left + " ) / ( " + right + " )"
             return "( " + left + " ) / " + right
-        if isinstance(self.p2, (Add,Sub,Mul,Div)):
+        if isinstance(self.p2, (Add, Sub, Mul, Div)):
             return left + " / ( " + right + " )"
         return left + " / " + right
 
@@ -137,13 +161,23 @@ class Div:
         # Should return the quotient of the two operands (use integer division //)
         v1 = self.p1.evaluate(x_value)
         v2 = self.p2.evaluate(x_value)
+        if v2.i == 0:
+            raise ZeroDivisionError("Division by zero in polynomial evaluation")
         return Int(v1.i // v2.i)
 
     def simplify(self):
         # TODO (Optional Exercise): Implement simplification
         # Examples: X / 1 -> X, 6 / 2 -> 3
         # Hint: Simplify operands first, then apply simplification rules
-        pass
+        a = self.p1.simplify()
+        b = self.p2.simplify()
+        if isinstance(a, Int) and isinstance(b, Int):
+            if b.i == 0:
+                raise ZeroDivisionError("Division by zero in polynomial simplification")
+            return Int(a.i // b.i)
+        if b == Int(1):
+            return a
+        return Div(a, b)
 
 
 # Original polynomial example
