@@ -8,7 +8,7 @@ class X:
     def evaluate(self, x_value):
         # TODO: Implement evaluation for variable X
         # Should return an Int object with the given x_value
-        pass
+        return Int(x_value)
 
     def simplify(self):
         # TODO (Optional Exercise): Implement simplification
@@ -26,7 +26,7 @@ class Int:
     def evaluate(self, x_value):
         # TODO: Implement evaluation for integer constant
         # Should return an Int object with the stored integer value
-        pass
+        return Int(self.i)
 
     def simplify(self):
         # TODO (Optional Exercise): Implement simplification
@@ -45,7 +45,9 @@ class Add:
     def evaluate(self, x_value):
         # TODO: Implement evaluation for addition
         # Should evaluate both operands and return their sum
-        pass
+        v1 = self.p1.evaluate(x_value)
+        v2 = self.p2.evaluate(x_value)
+        return Int(v1.i + v2.i)
 
     def simplify(self):
         # TODO (Optional Exercise): Implement simplification
@@ -71,7 +73,9 @@ class Mul:
     def evaluate(self, x_value):
         # TODO: Implement evaluation for multiplication
         # Should evaluate both operands and return their product
-        pass
+        v1 = self.p1.evaluate(x_value)
+        v2 = self.p2.evaluate(x_value)
+        return Int(v1.i * v2.i)
 
     def simplify(self):
         # TODO (Optional Exercise): Implement simplification
